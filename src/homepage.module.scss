@@ -12,21 +12,7 @@
   gap: 20px;
   align-items: center;
 }
-.yAnimation {
-  animation-name: yColorbox;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-direction: alternate;
-  @keyframes yColorbox {
-    0% {
-      transform: translateY(calc(-20vh + 20px));
-    }
-    100% {
-      transform: translateY(calc(60vh - 50px));
-    }
-  }
-}
+
 .randomColorBox {
   height: 200px;
   background: red;
@@ -36,17 +22,52 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  animation-name: colorbox;
+}
+
+.initialAnimation {
+  animation-name: initialMovement;
   animation-duration: 4s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-direction: normal;
+  @keyframes initialMovement {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translateX(calc(-50vw + 100px)) translateY(calc(-20vh + 20px));
+    }
+  }
+}
+
+.xAnimation {
+  animation-name: xColorbox;
+  animation-duration: 10s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
   animation-direction: alternate;
-  @keyframes colorbox {
+  @keyframes xColorbox {
     0% {
       transform: translateX(calc(-50vw + 100px));
     }
     100% {
       transform: translateX(calc(50vw - 128px));
+    }
+  }
+}
+.yAnimation {
+  animation-name: yColorbox;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-direction: alternate;
+
+  @keyframes yColorbox {
+    0% {
+      transform: translateY(calc(-20vh + 20px));
+    }
+    100% {
+      transform: translateY(calc(60vh - 50px));
     }
   }
 }

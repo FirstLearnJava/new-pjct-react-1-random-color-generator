@@ -11,21 +11,110 @@ export default function App() {
   const [changeWidth, setChangeWidth] = useState(250);
   const [changeHeight, setChangeHeight] = useState(200);
 
+  const [isXAnimationActive, setIsXAnimationActive] = useState(false);
+  const [isYAnimationActive, setIsYAnimationActive] = useState(false);
+  const [isInitialAnimationActive, setIsInitialAnimationActive] =
+    useState(false);
+
+  useEffect(() => {
+    let timeoutId;
+
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+
+      timeoutId = setTimeout(() => {
+        setIsInitialAnimationActive(true);
+      }, 6000);
+    };
+    const handleMouseMove = () => {
+      resetTimer();
+      setIsInitialAnimationActive(false);
+    };
+    const handleMouseLeave = () => {
+      resetTimer();
+      setIsInitialAnimationActive(false);
+    };
+    const handleMouseClick = () => {
+      resetTimer();
+      setIsInitialAnimationActive(false);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('click', handleMouseClick);
+
+    resetTimer();
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('click', handleMouseClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    let timeoutId;
+
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+
+      timeoutId = setTimeout(() => {
+        setIsXAnimationActive(true);
+        setIsYAnimationActive(true);
+      }, 10000);
+    };
+    const handleMouseMove = () => {
+      resetTimer();
+      setIsXAnimationActive(false);
+      setIsYAnimationActive(false);
+    };
+    const handleMouseLeave = () => {
+      resetTimer();
+      setIsXAnimationActive(false);
+      setIsYAnimationActive(false);
+    };
+    const handleMouseClick = () => {
+      resetTimer();
+      setIsXAnimationActive(false);
+      setIsYAnimationActive(false);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('click', handleMouseClick);
+
+    resetTimer();
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('click', handleMouseClick);
+    };
+  }, []);
+
   return (
     <>
       <div className={styles.centering}>
         <div className={styles.centerElements}>
-          <div className={styles.yAnimation}>
-            <div
-              className={styles.randomColorBox}
-              style={{
-                backgroundColor: color,
-                transition: 'all 0.4s ease-out',
-                width: changeWidth,
-                height: changeHeight,
-              }}
-            >
-              <div>Generated color: {color}</div>
+          <div
+            className={`${
+              isInitialAnimationActive ? styles.initialAnimation : ''
+            }`}
+          >
+            <div className={`${isYAnimationActive ? styles.yAnimation : ''}`}>
+              <div
+                className={`${styles.randomColorBox} ${
+                  isXAnimationActive ? styles.xAnimation : ''
+                }`}
+                style={{
+                  backgroundColor: color,
+                  transition: 'all 0.4s ease-out',
+                  width: changeWidth,
+                  height: changeHeight,
+                }}
+              >
+                <div style={{ fontSize: 16 }}>Generated color: {color}</div>
+              </div>
             </div>
           </div>
           <button
@@ -42,7 +131,7 @@ export default function App() {
             Generate
           </button>
           <label>
-            Select a luminosity:&nbsp;&nbsp;
+            Select luminosity:&nbsp;&nbsp;
             <select
               name="selectLuminosity"
               style={{ width: 76, height: 22 }}
@@ -58,7 +147,7 @@ export default function App() {
             </select>
           </label>
           <label>
-            Select a hue:&nbsp; &nbsp;
+            Select hue:&nbsp; &nbsp;
             <select
               value={selectedHue}
               style={{ width: 76, height: 22 }}
